@@ -46,7 +46,7 @@ def configure(config):
         # could ask if user wants to customize message templates,
         # but that seems unnecessary
 
-def get_datetime():
+def get_datetime(bot):
     """
     Returns a datetime object of the current time.
     """
@@ -56,6 +56,7 @@ def get_datetime():
         dt = dt.astimezone(timezone(bot.config.clock.tz))
     if not bot.config.chanlogs.microseconds:
         dt = dt.replace(microsecond=0)
+    return dt
 
 def get_fpath(bot, trigger, channel=None):
     """
@@ -66,7 +67,7 @@ def get_fpath(bot, trigger, channel=None):
     channel = channel or trigger.sender
     channel = channel.lstrip("#")
 
-    dt = get_datetime()
+    dt = get_datetime(bot)
     if bot.config.chanlogs.by_day:
         fname = "{channel}-{date}.log".format(channel=channel, date=dt.date().isoformat())
     else:
@@ -75,7 +76,7 @@ def get_fpath(bot, trigger, channel=None):
 
 
 def _format_template(tpl, bot, trigger, **kwargs):
-    dt = get_datetime()
+    dt = get_datetime(bot)
 
     formatted = tpl.format(
         trigger=trigger, datetime=dt.isoformat(),
