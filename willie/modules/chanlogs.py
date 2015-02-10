@@ -46,7 +46,7 @@ def configure(config):
         # could ask if user wants to customize message templates,
         # but that seems unnecessary
 
-def get_datetime()
+def get_datetime():
     """
     Returns a datetime object of the current time.
     """
