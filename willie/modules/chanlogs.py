@@ -42,9 +42,7 @@ def configure(config):
         config.add_option("chanlogs", "by_day", "Split log files by day", default=True)
         config.add_option("chanlogs", "privmsg", "Record private messages", default=False)
         config.add_option("chanlogs", "microseconds", "Microsecond precision", default=False)
-        if pytz:
-            if config.has_section("clock"):
-                config.add_option("chanlogs", "localtime", "Use local timezone", default=False)
+        config.add_option("chanlogs", "localtime", "Attempt to use preferred timezone", default=False)
         # could ask if user wants to customize message templates,
         # but that seems unnecessary
 
