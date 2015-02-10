@@ -15,6 +15,7 @@ import sys
 from datetime import datetime
 try:
     from pytz import timezone
+    from pytz import common_timezones
     import pytz
 except ImportError:
     pytz = None
