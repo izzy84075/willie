@@ -13,10 +13,14 @@ import os.path
 import threading
 import sys
 from datetime import datetime
+try:
+    from pytz import timezone
+    import pytz
+except ImportError:
+    pytz = None
 import willie.module
 import willie.tools
 from willie.config import ConfigurationError
-from willie.tools import get_timezone
 
 MESSAGE_TPL = "{datetime}  <{trigger.nick}> {message}"
 ACTION_TPL = "{datetime}  * {trigger.nick} {message}"
@@ -53,7 +57,7 @@ def get_fpath(bot, trigger, channel=None):
 
     dt = datetime.utcnow()
     if bot.config.chanlogs.localtime:
-        dt = dt.astimezone(get_timezone(bot.db, bot.config, bot.config.clock.tz, None, None))
+        dt = dt.astimezone(timezone(bot.config.clock.tz))
     if not bot.config.chanlogs.microseconds:
         dt = dt.replace(microsecond=0)
     if bot.config.chanlogs.by_day:
@@ -66,7 +70,7 @@ def get_fpath(bot, trigger, channel=None):
 def _format_template(tpl, bot, trigger, **kwargs):
     dt = datetime.utcnow()
     if bot.config.chanlogs.localtime:
-        dt = dt.astimezone(get_timezone(bot.db, bot.config, bot.config.clock.tz, None, None))
+        dt = dt.astimezone(timezone(bot.config.clock.tz))
     if not bot.config.chanlogs.microseconds:
         dt = dt.replace(microsecond=0)
 
