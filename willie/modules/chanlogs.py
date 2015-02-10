@@ -36,7 +36,7 @@ def configure(config):
         config.add_option("chanlogs", "by_day", "Split log files by day", default=True)
         config.add_option("chanlogs", "privmsg", "Record private messages", default=False)
         config.add_option("chanlogs", "microseconds", "Microsecond precision", default=False)
-        config_add_option("chanlogs", "localtime", "Use local timezone", default=False)
+        config.add_option("chanlogs", "localtime", "Use local timezone", default=False)
         # could ask if user wants to customize message templates,
         # but that seems unnecessary
 
