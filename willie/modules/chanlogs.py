@@ -58,7 +58,7 @@ def get_fpath(bot, trigger, channel=None):
 
     dt = datetime.utcnow()
     if bot.config.chanlogs.localtime:
-        dt = dt.astimezone(bot.config.clock.tz)
+        dt = dt.astimezone(timezone(bot.config.clock.tz))
     if not bot.config.chanlogs.microseconds:
         dt = dt.replace(microsecond=0)
     if bot.config.chanlogs.by_day:
@@ -71,7 +71,7 @@ def get_fpath(bot, trigger, channel=None):
 def _format_template(tpl, bot, trigger, **kwargs):
     dt = datetime.utcnow()
     if bot.config.chanlogs.localtime:
-        dt = dt.astimezone(bot.config.clock.tz)
+        dt = dt.astimezone(timezone(bot.config.clock.tz))
     if not bot.config.chanlogs.microseconds:
         dt = dt.replace(microsecond=0)
 
