@@ -15,7 +15,7 @@ import sys
 from datetime import datetime
 try:
     from pytz import timezone
-    from pytz import common_timezones
+    from pytz import all_timezones
     import pytz
 except ImportError:
     pytz = None
@@ -42,7 +42,9 @@ def configure(config):
         config.add_option("chanlogs", "by_day", "Split log files by day", default=True)
         config.add_option("chanlogs", "privmsg", "Record private messages", default=False)
         config.add_option("chanlogs", "microseconds", "Microsecond precision", default=False)
-        config.add_option("chanlogs", "localtime", "Use local timezone", default=False)
+        if pytz:
+            if config.has_section("clock"):
+                config.add_option("chanlogs", "localtime", "Use local timezone", default=False)
         # could ask if user wants to customize message templates,
         # but that seems unnecessary
 
@@ -51,9 +53,10 @@ def get_datetime(bot):
     Returns a datetime object of the current time.
     """
     dt = datetime.utcnow()
-    dt = dt.replace(tzinfo = timezone('UTC'))
-    if bot.config.chanlogs.localtime:
-        dt = dt.astimezone(timezone(bot.config.clock.tz))
+    if pytz:
+        dt = dt.replace(tzinfo = timezone('UTC'))
+        if bot.config.chanlogs.localtime:
+            dt = dt.astimezone(timezone(bot.config.clock.tz))
     if not bot.config.chanlogs.microseconds:
         dt = dt.replace(microsecond=0)
     return dt
