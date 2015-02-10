@@ -16,6 +16,7 @@ from datetime import datetime
 import willie.module
 import willie.tools
 from willie.config import ConfigurationError
+from willie.tools import get_timezone
 
 MESSAGE_TPL = "{datetime}  <{trigger.nick}> {message}"
 ACTION_TPL = "{datetime}  * {trigger.nick} {message}"
