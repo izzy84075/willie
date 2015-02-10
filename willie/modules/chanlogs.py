@@ -36,6 +36,7 @@ def configure(config):
         config.add_option("chanlogs", "by_day", "Split log files by day", default=True)
         config.add_option("chanlogs", "privmsg", "Record private messages", default=False)
         config.add_option("chanlogs", "microseconds", "Microsecond precision", default=False)
+        config_add_option("chanlogs", "localtime", "Use local timezone", default=False)
         # could ask if user wants to customize message templates,
         # but that seems unnecessary
 
@@ -50,6 +51,8 @@ def get_fpath(bot, trigger, channel=None):
     channel = channel.lstrip("#")
 
     dt = datetime.utcnow()
+    if bot.config.chanlogs.localtime:
+        dt = datetime.astimezone(bot.config.clock.tz)
     if not bot.config.chanlogs.microseconds:
         dt = dt.replace(microsecond=0)
     if bot.config.chanlogs.by_day:
@@ -61,6 +64,8 @@ def get_fpath(bot, trigger, channel=None):
 
 def _format_template(tpl, bot, trigger, **kwargs):
     dt = datetime.utcnow()
+    if bot.config.chanlogs.localtime:
+        dt = datetime.astimezone(bot.config.clock.tz)
     if not bot.config.chanlogs.microseconds:
         dt = dt.replace(microsecond=0)
 
